@@ -1,0 +1,42 @@
+#!/usr/bin/python
+import sys,argparse
+import base64, hashlib
+import requests
+
+#Get the variant based on the identifier (digest)
+def fetch_variant(identifier):
+	return True
+
+#Connect to the VEP annotation tool
+def VEP(variant):
+	server = "https://rest.ensembl.org"
+	ext = "/vep/human/hgvs/" + variant
+	
+	r = requests.get(server+ext, headers = {"Content-Type" : "application/json"})
+
+	if not r.ok:
+		r.raise_for_status()
+		sys.exit()
+	decoded = r.json()
+	return repr(decoded)
+
+	
+def main(args):
+	sys.stderr.write("Gathering annotations for: " + args.identifier + "\n")
+	fetch_variant(args.identifier)
+
+	annotation = VEP("AGT:c.803T>C?")	
+	with open("output", "w") as out:
+		out.write(annotation)
+	
+
+if __name__ == "__main__":
+	parser = argparse.ArgumentParser(
+		description = "Gathers annotation information for a VMC standard variant")
+	parser.add_argument( 'identifier',
+		type = str,
+		help = "Identifier should be the digest of a VMC standard variant"
+		)
+	args = parser.parse_args()
+
+	main(args)	
