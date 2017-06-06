@@ -1,7 +1,6 @@
 #!/usr/bin/python
-import sys,argparse
-import base64, hashlib
-import requests
+import sys,argparse, requests, json, ast
+from pprint import pprint
 
 #Get the variant based on the identifier (digest)
 def fetch_variant(identifier):
@@ -17,18 +16,31 @@ def VEP(variant):
 	if not r.ok:
 		r.raise_for_status()
 		sys.exit()
-	decoded = r.json()
-	return repr(decoded)
 
+	decoded = r.json()
+	decoded = ast.literal_eval(repr(decoded))
+	return json.dumps(decoded)
 	
+#Parse output from VEP json
+def parse_VEP_json(vep_json):
+	with open("output", "w") as out:
+		j = json.loads(vep_json)		
+		print "json loaded"
+
+		for field in j:
+			if field["transcript_consequences"]:
+				for consequence in field["transcript_consequences"]:
+					out.write(
+						"Gene_symbol: " + consequence["gene_symbol"] +
+						"\nBiotype: " + consequence["biotype"] + 
+						"\nConsequence_terms: " + consequence["consequence_terms"][0] + 
+						"\nImpact: " + consequence["impact"] + "\n\n") 
+
 def main(args):
 	sys.stderr.write("Gathering annotations for: " + args.identifier + "\n")
 	fetch_variant(args.identifier)
 
-	annotation = VEP("AGT:c.803T>C?")	
-	with open("output", "w") as out:
-		out.write(annotation)
-	
+	parse_VEP_json(VEP("ENST00000003084:c.1431_1433delTTC?"))	
 
 if __name__ == "__main__":
 	parser = argparse.ArgumentParser(
