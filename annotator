@@ -1,10 +1,10 @@
 #!/usr/bin/python
 import sys,argparse, requests, json, ast
-from pprint import pprint
 
 #Get the variant based on the identifier (digest)
 def fetch_variant(identifier):
-	return True
+	
+	return identifier
 
 #Connect to the VEP annotation tool
 def VEP(variant):
@@ -38,9 +38,9 @@ def parse_VEP_json(vep_json):
 
 def main(args):
 	sys.stderr.write("Gathering annotations for: " + args.identifier + "\n")
-	fetch_variant(args.identifier)
+	variant = fetch_variant(args.identifier)
 
-	parse_VEP_json(VEP("ENST00000003084:c.1431_1433delTTC?"))	
+	parse_VEP_json(VEP(variant))	
 
 if __name__ == "__main__":
 	parser = argparse.ArgumentParser(
