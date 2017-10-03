@@ -68,8 +68,54 @@ function selectFragment(el) {
 	el.className = "selected"
 }
 
-function ngSwitch(dest){
-  if(dest == 'test'){
-    $(pageVar) = 'grid'
+var app = angular.module("toolApp", []);
+app.controller('Ctrl', function($scope){
+	$scope.tools = ["VEP", "None"];
+	$scope.fields = [{
+    id: 1,
+    text: 'gene_symbol'
+  }, {
+    id: 2,
+    text: 'biotype'
+  }, {
+    id: 3,
+    text: 'gene_id'
+  }, {
+    id: 4,
+    text: 'hgnc_id'
+  }, {
+    id: 5,
+    text: 'transcript_id'
+  }, {
+    id: 6,
+    text: 'cds_start'
+  }, {
+    id: 7,
+    text: 'cds_end'
+  }, {
+    id: 8,
+    text: 'variant_allele'
+  }, {
+    id: 9,
+    text: 'impact'
+  }, {
+    id: 10,
+    text: 'consequence_terms'
+  }, {
+    id: 11,
+    text: 'gene_source_symbol'
+  }];
+  $scope.isChecked = function(id, matches) {
+    var isChecked = false;
+    angular.forEach(matches, function(match) {
+      if (match === id) {
+        isChecked = true;
+      }
+    });
+    return isChecked;
   }
-}
+  $scope.tool = {
+    fields: [1,2,3,4,5,6,7,8,9,10,11]
+  };
+});
+app.controller("Ctrl", Ctrl);

@@ -27,60 +27,112 @@
 
 </head>
 
-<body ng-app="">
+<body>
 
-  <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark no-padding" style="padding-left: 15px;">
-    <a class="navbar-brand no-padding" href="#"><img src="images/vmc_header.png" style="width:160px;height:50px;"></img></a>
-    <div class="collapse navbar-collapse" id="navbarsExampleDefault">
-      <ul class="navbar-nav mr-auto">
-        <li style="padding-left:30px;"class="nav-item active">
-          <a class="nav-link" href="#"><br>Digest <span class="sr-only">(current)</span></a>
-        </li>
-        <li style="padding-left: 50px;"class="nav-item">
-          <a class="nav-link" href="http://bit.ly/vmc-github"><br>User Guide</a>
-        </li>
-        <li style="padding-left: 50px;"class="nav-item"><p>
-          <a class="nav-link" href="http://bit.ly/vmc-0-1"><br>About the VMC</a>
-        </li>
-        <li style="padding-left: 50px;"class="nav-item">
-          <a class="nav-link" href="http://bit.ly/vmc-discuss"><br>Feedback</a>
-        </li>
-      </ul>
-    </div>
-  </nav>
+  <div ng-app="">
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark no-padding" style="padding-left: 15px;">
+      <a class="navbar-brand no-padding" href="#"><img src="images/vmc_header.png" style="width:160px;height:50px;"></img></a>
+      <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+        <ul class="navbar-nav mr-auto">
+          <li style="padding-left:30px;"class="nav-item active">
+            <a class="nav-link" href="#"><br>Digest <span class="sr-only">(current)</span></a>
+          </li>
+          <li style="padding-left: 50px;"class="nav-item">
+            <a class="nav-link" href="http://bit.ly/vmc-github"><br>User Guide</a>
+          </li>
+          <li style="padding-left: 50px;"class="nav-item"><p>
+            <a class="nav-link" href="http://bit.ly/vmc-0-1"><br>About the VMC</a>
+          </li>
+          <li style="padding-left: 50px;"class="nav-item">
+            <a class="nav-link" href="http://bit.ly/vmc-discuss"><br>Feedback</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
 
-  <div ng-switch = "pageVar">
-    <div ng-switch-default class="container-fluid">
-      <div class="row">
-        <nav style="max-width:180px;padding-top:50px;"class="col-sm-2 col-md-2 d-none d-sm-block bg-light sidebar">
-          <ul class="nav nav-pills flex-column">
-            <li class="nav-item">
-              <a class="nav-link active" href="#">Digest<span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#variant">Variant</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#annotation">Annotation</a>
-            </li>
-          </ul>
-        </nav>
-        <main class="col-sm-9 ml-sm-auto col-md-11 pt-3" style="padding-left:80px;"role="main">
-          <div id="jumbo" class="jumbotron">
-            <div class="col-sm-12 mx-auto">
-              <h1>VMC Digest Generator</h1>
-              <p>Upload your VCF file to create a <code>vmc-digest</code> field for each variant in the VCF. For examples of what your VCF will look like with the added field, click <a href="#">here</a>.</p>
-              <p>All digest identifiers are generated using the VMC digest algorithm. For more information on the VMC project and the utility of the digest identifier, click the links at the top of the page.</p>
-              <div style="padding-left:20px; font-size:80%;" class="form-group">
-                <label for="exampleInputFile">File input</label>
-                <input type="file" class="form-control-file" id="exampleInputFile" aria-describedby="fileHelp">
-                <small id="fileHelp" class="form-text text-muted">This is the VCF file you wish to digest.</small>
+    <div ng-switch = "pageVar">
+      <div ng-switch-default class="container-fluid">
+        <div class="row">
+          <nav style="max-width:180px;padding-top:50px;"class="col-sm-2 col-md-2 d-none d-sm-block bg-light sidebar">
+            <ul class="nav nav-pills flex-column">
+              <li class="nav-item">
+                <a class="nav-link active" href="#">Transformer<span class="sr-only">(current)</span></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#variant">Variants</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#annotation">Annotations</a>
+              </li>
+            </ul>
+          </nav>
+          <main class="col-sm-9 ml-sm-auto col-md-11 pt-3" style="padding-left:60px;padding-right:40px;"role="main">
+            <div id="jumbo" class="jumbotron" style="padding-bottom:20px;">
+              <div class="row">
+                <div class="col-sm-12 mx-auto">
+                  <h2>VCF Transformer</h2>
+                </div>
               </div>
-              <a class="btn btn-primary" href="../../components/navbar/" role="button">Digest</a>
+
+              <div class="row">
+                <div class="col-sm-4 mx-auto">
+                  <h4>Digest</h4>
+                  <p>Upload your VCF file to create a <code>vmc-digest</code> field for each variant in the VCF. For examples of what your VCF will look like with the added field, click <a href="#">here</a>.</p>
+                  <p>All digest identifiers are generated using the VMC digest algorithm. For more information on the VMC project and the utility of the digest identifier, click the links at the top of the page.</p>
+                  <div style="padding-left:20px; font-size:80%;" class="form-group">
+                    <label for="exampleInputFile">File input</label>
+                    <input type="file" class="form-control-file" id="exampleInputFile" aria-describedby="fileHelp">
+                    <small id="fileHelp" class="form-text text-muted">This is the VCF file you wish to digest.</small>
+                  </div>
+                </div>
+                <div style="border-left:thin solid;" class="col-sm-8 mx-auto">
+                  <div class="row">
+                    <h4 style="padding-left:15px;">Annotations</h4>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-5 mx-auto">
+                      <p>Pick an annotation tool and select fields to include in your VCF file as <code><i>tool</i>-annotations</code>, or select <i>None</i> to omit the annotations.</p>
+                      <p>To get the full annotation JSON schema from the tool, use the <a href="#annotation">endpoints </a>below.</p>
+                    </div>
+                    <div class="col-sm-7 mx-auto">
+
+
+                      <div ng-model="toolApp" ng-controller="Ctrl">
+
+
+                      <select ng-model="selectTool" ng-options='tool for tool in tools'></select>
+
+                      <!--
+                      <hr>
+                      <div ng-switch="toolSelect">
+                        <div ng-switch-when="VEP">
+                          <div ng-controller="Ctrl">
+                              <label ng-repeat="field in fields">
+                              <input type="checkbox" ng-model="tool.fields" checklist-value="field.id" ng-checked="isChecked(field.id, tool.fields)">{{fields.text}}
+                            </label>
+                          </div>
+                        </div>
+                        <div ng-switch-when="None">
+                          None selected
+                        </div>
+                        <div ng-switch-default>
+                          No tool selected
+                        </div>
+                      </div>
+                    </hr>
+-->
+                    </div>
+
+
+                  </div>
+                </div>
+              </div>
             </div>
+            <a class="btn btn-md btn-success" href="../../components/navbar/"><span class="glyphicon glyphicon-open-file"></span> Transform</a>
           </div>
+
           <div style="padding-left:50px;">
-            <h2 style="padding-top:10px;padding-bottom:30px;">VMC Rest API Endpoints</h2>
+            <h2 style="padding-top:10px;padding-bottom:30px;">Rest API Endpoints</h2>
             <h3>Variant</h3>
             <div id="variant" class="table-responsive anchor">
               <table class="table table-striped">
@@ -92,7 +144,7 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><a class="nav-link no-padding" href="#">GET test/test/test/:test</a></td>
+                    <td><a class="nav-link no-padding" onclick=""href="#">GET test/test/test/:test</a></td>
                     <td>This is a test description for an API endpoint</td>
                   </tr>
                   <tr>
@@ -278,14 +330,15 @@
     </div>
   </div>
 
-  <!-- Bootstrap core JavaScript
-  ================================================== -->
-  <!-- Placed at the end of the document so the pages load faster -->
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-  <script>window.jQuery || document.write('<script src="js/vendor/jquery.min.js"><\/script>')</script>
-  <script src="js/popper.min.js"></script>
-  <script src="js/bootstrap.min.js"></script>
-  <script src="js/endpoint.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+</div>
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script>window.jQuery || document.write('<script src="js/vendor/jquery.min.js"><\/script>')</script>
+<script src="js/popper.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+<script src="js/transformer.js"></script>
 </body>
 </html>

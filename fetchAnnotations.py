@@ -2,7 +2,7 @@
 import sys,argparse, requests, json, ast, sqlite3, re
 
 
-def pull_variant():
+def pull_variant_from_db():
     id_list = []
     with sqlite3.connect("../../data_dump/variants.db") as db:
         cursor = db.cursor()
@@ -13,14 +13,14 @@ def pull_variant():
             id_list.append(str(val))
     print(id_list)
 
-#Get the variant based on the identifier (digest)
-def fetch_variant(identifier):
-	return identifier
+def fetch_annotations(rs):
+
+    return identifier
 
 #Connect to the VEP annotation tool
 def VEP(variant):
 	server = "https://rest.ensembl.org"
-	ext = "/vep/human/hgvs/" + variant
+	ext = "/vep/human/id/" + variant
 	r = requests.get(server+ext, headers = {"Content-Type" : "application/json"})
 	if not r.ok:
 		r.raise_for_status()
@@ -31,19 +31,20 @@ def VEP(variant):
 
 #Parse output from VEP json
 def parse_VEP_json(vep_json):
-	with open("output", "w") as out:
-		j = json.loads(vep_json)
-		print "json loaded"
-		for field in j:
-			if field["transcript_consequences"]:
-				for consequence in field["transcript_consequences"]:
-					out.write(
+    with open("data/output", "w") as out:
+        j = json.loads(vep_json)
+        out.write(str(j) + '\n\n')
+        print ("json loaded")
+        for field in j:
+            if field["transcript_consequences"]:
+                for consequence in field["transcript_consequences"]:
+                    out.write(
 						"Gene_symbol: " + consequence["gene_symbol"] +
 						"\nBiotype: " + consequence["biotype"] +
 						"\nConsequence_terms: " + consequence["consequence_terms"][0] +
 						"\nImpact: " + consequence["impact"] + "\n\n")
 
-def main():
+def main(rs):
     #1 Parse the VCF
     #2 (once we have it up and running) query the database for that variant
     #3 If not there:
@@ -54,12 +55,15 @@ def main():
         #Ask which tools to see annotations
         #Ask which annotation fields to filter
 
-	pull_variant()
+    parse_VEP_json(VEP(rs))
 
 #	parse_VEP_json(VEP(variant))
 
 if __name__ == "__main__":
-    main()
+    with open("data/input", "r") as file_in:
+        for rs in file_in:
+            rs = rs.split()
+            main(rs[0])
     """
 	parser = argparse.ArgumentParser(
 		description = "Gathers annotation information for a VMC standard variant")
