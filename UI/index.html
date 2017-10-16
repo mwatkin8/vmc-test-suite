@@ -11,7 +11,8 @@
 
   <!-- Bootstrap core CSS -->
   <link href="css/bootstrap.min.css" rel="stylesheet">
-
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+  <script src="js/transformer.js"></script>
   <!-- Custom styles for this template -->
   <link href="css/home.css" rel="stylesheet">
 
@@ -29,13 +30,13 @@
 
 <body>
 
-  <div ng-app="">
+  <div>
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark no-padding" style="padding-left: 15px;">
       <a class="navbar-brand no-padding" href="#"><img src="images/vmc_header.png" style="width:160px;height:50px;"></img></a>
       <div class="collapse navbar-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav mr-auto">
           <li style="padding-left:30px;"class="nav-item active">
-            <a class="nav-link" href="#"><br>Digest <span class="sr-only">(current)</span></a>
+            <a class="nav-link active" href="#"><br>Digest <span class="sr-only">(current)</span></a>
           </li>
           <li style="padding-left: 50px;"class="nav-item">
             <a class="nav-link" href="http://bit.ly/vmc-github"><br>User Guide</a>
@@ -50,8 +51,8 @@
       </div>
     </nav>
 
-    <div ng-switch = "pageVar">
-      <div ng-switch-default class="container-fluid">
+    <div>
+      <div class="container-fluid">
         <div class="row">
           <nav style="max-width:180px;padding-top:50px;"class="col-sm-2 col-md-2 d-none d-sm-block bg-light sidebar">
             <ul class="nav nav-pills flex-column">
@@ -94,33 +95,28 @@
                       <p>Pick an annotation tool and select fields to include in your VCF file as <code><i>tool</i>-annotations</code>, or select <i>None</i> to omit the annotations.</p>
                       <p>To get the full annotation JSON schema from the tool, use the <a href="#annotation">endpoints </a>below.</p>
                     </div>
+
                     <div class="col-sm-7 mx-auto">
 
+                      <div ng-app="toolApp" ng-controller="toolCtrl">
+                        Tool&nbsp;
+                        <select ng-model="selectedTool">
+                          <option ng-repeat="x in tools" value="{{ x.name }}">
+                            {{ x.name }}
+                          </option>
+                        </select>
+                        <hr>
 
-                      <div ng-model="toolApp" ng-controller="Ctrl">
+                        <label ng-show="selectedTool == 'VEP'" ng-repeat="field in VEPfields">
+                          <input type="checkbox" ng-model="checked" ng-init="checked=true" checklist-value="field.id"> {{ field.text }}&nbsp;&nbsp;&nbsp;
+                        </label>
+
+                        <label ng-show="selectedTool == 'None'">
+                          <span><i>No tool selected</i></span>
+                        </label>
 
 
-                      <select ng-model="selectTool" ng-options='tool for tool in tools'></select>
-
-                      <!--
-                      <hr>
-                      <div ng-switch="toolSelect">
-                        <div ng-switch-when="VEP">
-                          <div ng-controller="Ctrl">
-                              <label ng-repeat="field in fields">
-                              <input type="checkbox" ng-model="tool.fields" checklist-value="field.id" ng-checked="isChecked(field.id, tool.fields)">{{fields.text}}
-                            </label>
-                          </div>
-                        </div>
-                        <div ng-switch-when="None">
-                          None selected
-                        </div>
-                        <div ng-switch-default>
-                          No tool selected
-                        </div>
-                      </div>
-                    </hr>
--->
+                      </hr>
                     </div>
 
 
@@ -213,7 +209,9 @@
       </div>
       <br>
 
-      <div ng-switch-when="grid" class="container">
+      <div
+
+      class="container">
 
         <h1>Bootstrap grid examples</h1>
         <p class="lead">Basic grid layouts to get you familiar with building within the Bootstrap grid system.</p>
@@ -338,7 +336,6 @@
 <script>window.jQuery || document.write('<script src="js/vendor/jquery.min.js"><\/script>')</script>
 <script src="js/popper.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
-<script src="js/transformer.js"></script>
+
 </body>
 </html>
