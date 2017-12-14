@@ -16,7 +16,9 @@ h1 {
   padding-bottom: 9px;
   border-bottom: 1px solid #eee;
 }
-
+pre {
+  max-height: 200px;
+}
 /*
  * Sidebar
  */
@@ -82,9 +84,6 @@ h1 {
   font-size: 30%;
 }
 
-pre {outline: 1px solid #ccc; padding: 5px; margin: 5px; }
-.string { color: green; }
-.number { color: darkorange; }
-.boolean { color: blue; }
-.null { color: magenta; }
-.key { color: red; }
+.right{
+  text-align: right;
+}
