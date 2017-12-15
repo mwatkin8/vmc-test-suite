@@ -21,7 +21,9 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono">
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   <!--JS-->
+  <script src="../static/js/hooks.js"></script>
   <script src="../static/js/hooks2.js"></script>
+  <script src="../static/js/mk.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
   <script src="http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.2/modernizr.js"></script>
@@ -162,6 +164,18 @@
                   <p id="file_name" class="text-muted"></p>
               </div>
 
+              {% block content %}
+              <div class="container">
+                {% for message in get_flashed_messages() %}
+                <div class="alert alert-warning">
+                  <button type="button" class="close" data-dismiss="alert">&times;</button>
+                  {{ message }}
+                </div>
+                {% endfor %}
+
+              </div>
+              {% endblock %}
+
               <p class="pointer text-muted">
                 <input style="width:32px;height:30px;padding-right:2px;" src="../static/images/convert.png" align=left type=image href="../uploads/in.vcf"> Click button when file appears below </input>
               </p>
@@ -172,7 +186,6 @@
                   </td>
                 </tr>
               </table>
-
 
               <a href="../uploads/out.vcf"><img style="width:28px;height:28px;" src="../static/images/download.png"/></a>
               <span class="text-muted"> Click button when file appears below </span>
@@ -214,9 +227,7 @@
       </footer>
 
     </div>
-    <script src="../static/js/hooks.js"></script>
+
     <script>app.initialize({version:"0.17.2",url:{base:".."}})</script>
-    <script src="../static/js/mk.js"></script>
-    
   </body>
 </html>

@@ -48,7 +48,7 @@ func Transform() {
 		//fmt.Println(record.Location)
 		//fmt.Println(variant.String())
 
-		out += variant.String() + ";VMCGSID=" + record.Location.Id + ";VMCGLID=" + record.Location.Interval + ";VMCGAID=" + record.Location.Sequence_id + "\n"
+		out += ";VMCGSID=" + record.Location.Id + ";VMCGLID=" + record.Location.Interval + ";VMCGAID=" + record.Location.Sequence_id + "\n"
 	}
 
 	file, err := os.Create("go.vcf")
