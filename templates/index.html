@@ -132,11 +132,6 @@
                         VMC Unique Identifier
                       </a>
                     </li>
-                    <li class="md-nav__item">
-                      <a href="#annotations" title="Annotations" class="md-nav__link">
-                        Including Annotations
-                      </a>
-                    </li>
                   </ul>
                 </nav>
               </div>
@@ -164,18 +159,6 @@
                   <p id="file_name" class="text-muted"></p>
               </div>
 
-              {% block content %}
-              <div class="container">
-                {% for message in get_flashed_messages() %}
-                <div class="alert alert-warning">
-                  <button type="button" class="close" data-dismiss="alert">&times;</button>
-                  {{ message }}
-                </div>
-                {% endfor %}
-
-              </div>
-              {% endblock %}
-
               <p class="pointer text-muted">
                 <input style="width:32px;height:30px;padding-right:2px;" src="../static/images/convert.png" align=left type=image href="../uploads/in.vcf"> Click button when file appears below </input>
               </p>
@@ -199,18 +182,6 @@
               </table>
 
               </br></br></br>
-              <h2 id="annotations">Including Annotations<a class="headerlink" href="#annotations" title="Permanent link">&para;</a></h2>
-              <blockquote>
-                <p>Select an annotation tool and filter fields to include in your VCF file as <code><i>tool</i>-annotations</code>, or select <i>None</i> to omit the annotations.</p>
-              </blockquote>
-
-              <table class="codehilitetable">
-                <tr>
-                  <td class="code">
-                    <div class="codehilite"><pre class="se-pre-con" id="annotationDisplayArea"><pre></div>
-                  </td>
-                </tr>
-              </table></br></br>
             </article>
           </div>
         </div>

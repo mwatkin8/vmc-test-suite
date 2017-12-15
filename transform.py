@@ -6,7 +6,7 @@ import sqlite3 as lite
 from collections import namedtuple
 
 variant = namedtuple("variant",['chrom','pos','id','ref', 'alt', 'qual', 'filter', 'info', 'format', 'other'])
-class vcfVariant(variant):
+class VCFVariant(variant):
     def __new__(cls, *args, **kwargs):
         return super().__new__(cls, args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7], args[8], args[9])
     def __init__(self, *args, name="null"):
@@ -125,7 +125,7 @@ def parse():
                 header += '''##INFO=<ID=VMCGSID,Number=1,Type=String,Description="VMC Sequence identifier">\n''' + '''##INFO=<ID=VMCGLID,Number=1,Type=String,Description="VMC Location identifier">\n''' + '''##INFO=<ID=VMCGAID,Number=1,Type=String,Description="VMC Allele identifier">\n'''
             else:
                 l = line.split('\t')
-                variant = vcfVariant(l[0], l[1], l[2], l[3], l[4], l[5], l[6], l[7] + id_list[idx], l[8], l[9])
+                variant = VCFVariant(l[0], l[1], l[2], l[3], l[4], l[5], l[6], l[7] + id_list[idx], l[8], l[9])
                 variants += variant.__str__()
                 idx += 1
         return header + cols + variants

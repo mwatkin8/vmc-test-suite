@@ -13,7 +13,7 @@ app = Flask(__name__, static_folder='static')
 app.secret_key = "vmctestsuite"
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-def allowed_filename(filename):
+def allowedFilename(filename):
     """Makes sure the filename is """
     return '.' in filename and filename.rsplit('.',1)[1] in ALLOWED_EXTENSIONS
 
@@ -35,7 +35,7 @@ def home():
             flash('No selected file')
             return redirect(request.url)
         # Check to see if it is a VCF file
-        if allowed_filename(file.filename):
+        if allowedFilename(file.filename):
             if file:
                 filename = "in.vcf"
                 file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
@@ -60,7 +60,7 @@ def home():
     return render_template('index.html')
 
 @app.route('/uploads/<path:filename>', methods=['GET', 'POST'])
-def download_file(filename):
+def downloadFile(filename):
     """If a download is initiated, send out.vcf as an attachment"""
     return send_from_directory(app.config['UPLOAD_FOLDER'], filename, as_attachment=True)
 
