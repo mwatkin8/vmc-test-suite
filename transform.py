@@ -113,12 +113,9 @@ def parse():
                 header += line
             elif line[0] == '#':
                 cols += line
-                header += """##INFO=<ID=VMCGSID,Number=1,Type=String,
-                    Description="VMC Sequence identifier">\n""" \
-                    + """##INFO=<ID=VMCGLID,Number=1,Type=String,
-                    Description="VMC Location identifier">\n""" \
-                    + """##INFO=<ID=VMCGAID,Number=1,Type=String,
-                    Description="VMC Allele identifier">\n"""
+                header += """##INFO=<ID=VMCGSID,Number=1,Type=String,Description="VMC Sequence identifier">\n""" \
+                    + """##INFO=<ID=VMCGLID,Number=1,Type=String,Description="VMC Location identifier">\n""" \
+                    + """##INFO=<ID=VMCGAID,Number=1,Type=String,Description="VMC Allele identifier">\n"""
             else:
                 line_list = line.split('\t')
                 var = VCFVariant(line_list[0], line_list[1], line_list[2], \
