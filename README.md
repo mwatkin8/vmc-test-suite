@@ -7,13 +7,15 @@ This web tool is designed to take in a VCF file, add VMC unique identifiers for 
 
 ## Installation
 
-Python 3 and Go 1.9.2 should be installed and the following steps should be followed to run the suite:
+Python 3.6 and Go 1.9.2 should be installed and the following steps should be followed to run the suite:
 
-1) Use  "<code>pip install -r requirements.txt</code>" to install system dependencies. Or activate the flask_venv virtual environment using  "<code>source activate flask_venv</code>".
+1) Use the virtualenv tool to create a virtual environment in which to run the program  "<code>virtualenv vmcTS-venv</code>". If virtualenv is not installed locally then use  "<code>pip install virtualenv</code>". Activate the new virtual environment using  "<code>source activate vmcTS-venv</code>".
 
-2) Within the VMC directory, use  "<code>python app.py</code>" to activate the web server locally. Navigate your web browser to http://127.0.0.1:5000/ in order to view the web tool.
+2) Use  "<code>pip install -r requirements.txt</code>" to install system dependencies.
 
-3) Once rendered, the tool requires a decomposed vcf file in order to transform it properly (per requirement by the VMC). A test file  "<code>HG00177_sml.vcf</code>" has been provided which is taken from the 1000 Genomes project.
+2) Within the vmc-test-suite directory, use  "<code>python app.py</code>" to activate the web server locally. Navigate your web browser to http://0.0.0.0:5000/ in order to view the web tool.
+
+3) Once rendered, the tool requires a decomposed vcf file in order to transform it properly (per requirement by the VMC). A test file  "<code>HG00177_sml.vcf</code>" has been provided which is taken from the 1000 Genomes project and can be found in the vmc-test-suite directory.
 
 
 
