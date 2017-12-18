@@ -9,7 +9,7 @@ variant = namedtuple("variant",['chrom','pos','id','ref', 'alt', 'qual', 'filter
 class VCFVariant(variant):
     def __new__(cls, *args, **kwargs):
         return super().__new__(cls, args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7], args[8], args[9])
-    def __init__(self, *args, name="null"):
+    def __init__(self, *args, **kwargs):
         # YOUR CODE HERE
         self.chrom = args[0]
         self.pos = args[1]

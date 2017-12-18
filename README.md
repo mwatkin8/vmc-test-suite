@@ -7,9 +7,7 @@ This web tool is designed to take in a VCF file, add VMC unique identifiers for 
 
 ## Installation
 
-The code has been converted into a Docker image to ease the installation process and eliminate the need for manual installation of dependencies or the bulk of a virtual environment.
-
-However, if the image doesn't work, Python 3 and Go 1.9.2 should be installed and the following steps should be followed to run the suite:
+Python 3 and Go 1.9.2 should be installed and the following steps should be followed to run the suite:
 
 1) Use  "<code>pip install -r requirements.txt</code>" to install system dependencies. Or activate the flask_venv virtual environment using  "<code>source activate flask_venv</code>".
 
