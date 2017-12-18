@@ -1,23 +1,25 @@
-# import the Flask class from the flask module
-from flask import Flask, session, flash, render_template, request, redirect, url_for, send_from_directory
-from flask_wtf import FlaskForm
-from wtforms import StringField
+"""app.py initiates the flask webapp and renders the html contained in the
+templates folder. It calls the transform module to generate and insert the
+unique identifiers and feeds the output to the front-end web page
+"""
 import os
+from flask import Flask, flash, render_template, \
+    request, redirect, send_from_directory
 import transform #our custom-made module
 
 UPLOAD_FOLDER = 'static/uploads'
 ALLOWED_EXTENSIONS = set(['vcf'])
 
 # create the application object
-app = Flask(__name__, static_folder='static')
-app.secret_key = "vmctestsuite"
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+APP = Flask(__name__, static_folder='static')
+APP.secret_key = "vmctestsuite"
+APP.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-def allowedFilename(filename):
+def allowed_filename(filename):
     """Makes sure the filename is """
-    return '.' in filename and filename.rsplit('.',1)[1] in ALLOWED_EXTENSIONS
+    return '.' in filename and filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
-@app.route('/', methods=['GET', 'POST'])
+@APP.route('/', methods=['GET', 'POST'])
 def home():
     """
     Renders index.html and waits for an upload request.
@@ -35,14 +37,14 @@ def home():
             flash('No selected file')
             return redirect(request.url)
         # Check to see if it is a VCF file
-        if allowedFilename(file.filename):
+        if allowed_filename(file.filename):
             if file:
                 filename = "in.vcf"
-                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-                transform.transform()
+                file.save(os.path.join(APP.config['UPLOAD_FOLDER'], filename))
+                transform.run()
                 #access out.VCF
-                with open("static/uploads/out.vcf") as f:
-                    file_content = f.read()
+                with open("static/uploads/out.vcf") as f_out:
+                    file_content = f_out.read()
                     out = file_content
                     return render_template('index.html', object=out)
         else:
@@ -59,11 +61,11 @@ def home():
 
     return render_template('index.html')
 
-@app.route('/uploads/<path:filename>', methods=['GET', 'POST'])
-def downloadFile(filename):
+@APP.route('/uploads/<path:filename>', methods=['GET', 'POST'])
+def download_file(filename):
     """If a download is initiated, send out.vcf as an attachment"""
-    return send_from_directory(app.config['UPLOAD_FOLDER'], filename, as_attachment=True)
+    return send_from_directory(APP.config['UPLOAD_FOLDER'], filename, as_attachment=True)
 
 # start the server with the 'run()' method
 if __name__ == '__main__':
-    app.run(debug=True, host="0.0.0.0")
+    APP.run(debug=True, host="0.0.0.0")
