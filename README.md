@@ -9,15 +9,15 @@ This web tool is designed to take in a VCF file, add VMC unique identifiers for 
 
 Python 3.6 and Go 1.9.2 should be installed and the following steps should be followed to run the suite:
 
-1) Use the virtualenv tool to create a virtual environment in which to run the program  "<code>virtualenv vmcTS-venv</code>". If virtualenv is not installed locally then use  "<code>pip3.6 install virtualenv</code>". Activate the new virtual environment using  "<code>. vmcTS-venv/bin/activate</code>".
+1) Use the virtualenv tool to create a virtual environment in which to run the program  <code>virtualenv vmcTS-venv</code>. If virtualenv is not installed locally then use  <code>pip3.6 install virtualenv</code>. Activate the new virtual environment using  <code>. vmcTS-venv/bin/activate</code>.
 
-2) Use  "<code>pip3.6 install -r requirements.txt</code>" to install system dependencies.
+2) Use  <code>pip3.6 install -r requirements.txt</code> to install system dependencies.
 
-2) Within the vmc-test-suite directory, use  "<code>python app.py</code>" to activate the web server locally. Navigate your web browser to http://0.0.0.0:5000/ in order to view the web tool.
+2) Within the vmc-test-suite directory, use  <code>python app.py</code> to activate the web server locally. Navigate your web browser to http://0.0.0.0:5000/ in order to view the web tool.
 
-3) Once rendered, the tool requires a decomposed vcf file in order to transform it properly (per requirement by the VMC). A test file  "<code>HG00177_sml.vcf</code>" has been provided which is taken from the 1000 Genomes project and can be found in the vmc-test-suite directory.
+3) Once rendered, the tool requires a decomposed vcf file in order to transform it properly (per requirement by the VMC). A test file  <code>HG00177_sml.vcf</code> has been provided which is taken from the 1000 Genomes project and can be found in the vmc-test-suite directory.
 
-4) To deactivate vmcTS-venv when finished using the test suite, simply enter  "<code>deactivate</code>".
+4) To deactivate  <code>vmcTS-venv</code> when finished using the test suite, simply enter  <code>deactivate</code>.
 
 
 ### Compiling Go files if modified
