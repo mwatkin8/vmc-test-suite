@@ -53,7 +53,7 @@ extern "C" {
 #endif
 
 
-extern void Transform();
+extern void Transform(GoString p0);
 
 extern void eCheck(GoInterface p0);
 

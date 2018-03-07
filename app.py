@@ -21,11 +21,10 @@ def allowed_filename(filename):
 
 @APP.route('/', methods=['GET', 'POST'])
 def home():
-    """
-    Renders index.html and waits for an upload request.
-    If upload is initiated, save the file as in.vcf in the uploads folder.
-    Clear the uploads folder if no post request is made.
-    """
+    with open("static/json/example.json") as f_in:
+        file_content = f_in.read()
+        json_example = file_content
+
     if request.method == 'POST':
         # check if the post request has the file part
         if 'file' not in request.files:
@@ -36,35 +35,44 @@ def home():
         if file.filename == '':
             flash('No selected file')
             return redirect(request.url)
-        # Check to see if it is a VCF file
-        if allowed_filename(file.filename):
-            if file:
-                filename = "in.vcf"
-                file.save(os.path.join(APP.config['UPLOAD_FOLDER'], filename))
-                transform.run()
-                #access out.VCF
-                with open("static/uploads/out.vcf") as f_out:
-                    file_content = f_out.read()
-                    out = file_content
-                    return render_template('index.html', object=out)
         else:
-            flash('Can only process VCF files.')
-    # Clear uploads folder
+            file.save(os.path.join(APP.config['UPLOAD_FOLDER'], file.filename))
+            with open("static/uploads/" + file.filename) as f_in:
+                file_content = f_in.read()
+                vcf_in = file_content
+                return render_template('index.html',vcf_in=vcf_in,json_example=json_example)
+
+    return render_template('index.html',json_example=json_example)
+
+@APP.route('/transformed_vcf', methods=['GET', 'POST'])
+def display_transformed():
+    with open("static/json/example.json") as f_in:
+        file_content = f_in.read()
+        json_example = file_content
+
+    filename = os.listdir("static/uploads")[1]
+    if len(os.listdir("static/uploads")) < 3:
+        out_filename = "vmc_" + filename
+        out_path = "static/uploads/" + out_filename
+        transform.run(filename, out_filename)
+        if os.path.isfile('static/uploads/' + out_filename):
+            with open('static/uploads/' + filename) as f_in:
+                file_content = f_in.read()
+                vcf_in = file_content
+            with open('static/uploads/' + out_filename) as f_out:
+                file_content = f_out.read()
+                transformed_vcf = file_content
     else:
-        in_file = "static/uploads/in.vcf"
-        out_file = "static/uploads/out.vcf"
-
-        if os.path.isfile(in_file):
-            os.remove(in_file)
-        if os.path.isfile(out_file):
-            os.remove(out_file)
-
-    return render_template('index.html')
-
-@APP.route('/uploads/<path:filename>', methods=['GET', 'POST'])
-def download_file(filename):
-    """If a download is initiated, send out.vcf as an attachment"""
-    return send_from_directory(APP.config['UPLOAD_FOLDER'], filename, as_attachment=True)
+        out_filename = os.listdir("static/uploads")[1]
+        #print(out_filename)
+        out_path = "static/uploads/" + out_filename
+        with open('static/uploads/' + filename) as f_in:
+            file_content = f_in.read()
+            vcf_in = file_content
+        with open('static/uploads/' + out_filename) as f_out:
+            file_content = f_out.read()
+            transformed_vcf = file_content
+    return render_template('index.html', json_example=json_example, vcf_in=vcf_in, transformed_vcf=transformed_vcf, out=out_path)
 
 # start the server with the 'run()' method
 if __name__ == '__main__':

@@ -13,9 +13,9 @@ import (
 )
 
 //export Transform
-func Transform() {
+func Transform(filename string) {
 
-	fh, err := xopen.Ropen("static/uploads/in.vcf")
+	fh, err := xopen.Ropen("static/uploads/HG00177_sml.vcf")
 	eCheck(err)
 	defer fh.Close()
 

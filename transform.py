@@ -94,7 +94,7 @@ def parse_ids():
             id_list.append(line.strip())
     return id_list
 
-def parse():
+def parse(filename):
     """Parses the header information from in.vcf and adds INFO entries to the
     meta-information section. Gets the new VMC identifiers from parseIDs()
     and adds them to the info fields of the variants via a vcfVariant object.
@@ -102,7 +102,8 @@ def parse():
 
     returns: the updated vcf file as a string
     """
-    with open('static/uploads/in.vcf') as transform:
+    in_path = 'static/uploads/' + filename
+    with open(in_path) as transform:
         header = ''
         cols = ''
         id_list = parse_ids()
@@ -125,13 +126,14 @@ def parse():
                 idx += 1
         return header + cols + variants
 
-def run():
+def run(filename, out_filename):
     """Calls the Go code which creates the VMC identifiers.
     It then calls parse() to gather the updated file which it writes to out.vcf.
     """
     vmc_lib = cdll.LoadLibrary('./govcf-vmc.so')
     print('Generating the VMC unique IDs')
-    vmc_lib.Transform()
+    vmc_lib.Transform(filename)
     #Write out to transformed file that the user can download
-    with open('static/uploads/out.vcf', 'w') as out:
-        out.write(parse())
+    out_path = 'static/uploads/' + out_filename
+    with open(out_path, 'w') as out:
+        out.write(parse(filename))

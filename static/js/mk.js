@@ -1,3 +1,4 @@
+
 window.onload = function() {
 	//Display file in html
 	var fileInput = document.getElementById('fileInput');
@@ -5,18 +6,12 @@ window.onload = function() {
 
 	fileInput.addEventListener('change', function(e) {
 		var file_in = fileInput.files[0];
-		var textType = /text.*/;
+		var reader = new FileReader();
 
-		if (file_in.type.match(textType)) {
-			var reader = new FileReader();
-
-			reader.onload = function(e) {
-				inDisplayArea.innerText = reader.result;
-			}
-
-			reader.readAsText(file_in);
-		} else {
-			inDisplayArea.innerText = "File not supported!"
+		reader.onload = function(e) {
+			inDisplayArea.innerText = reader.result;
+		}
+		reader.readAsText(file_in);
 		}
 	});
 }

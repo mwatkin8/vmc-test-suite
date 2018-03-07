@@ -129,7 +129,27 @@
                   <ul class="md-nav__list" data-md-scrollfix>
                     <li class="md-nav__item">
                       <a href="#identifiers" title="Identifiers" class="md-nav__link">
-                        VMC Unique Identifier
+                        Add VMC identifiers to VCF
+                      </a>
+                    </li>
+                    <li class="md-nav__item">
+                      <a href="#annotations" title="Annotations" class="md-nav__link">
+                        Add associated annotations
+                      </a>
+                    </li>
+                    <li class="md-nav__item">
+                      <a href="#json" title="Json" class="md-nav__link">
+                        From VCF to VMC json
+                      </a>
+                    </li>
+                    <li class="md-nav__item">
+                      <a href="#hgvs" title="hgvs" class="md-nav__link">
+                        From a HGVS string to VMC json
+                      </a>
+                    </li>
+                    <li class="md-nav__item">
+                      <a href="#validator" title="validator" class="md-nav__link">
+                        Validate your own VMC Identifier
                       </a>
                     </li>
                   </ul>
@@ -140,8 +160,26 @@
           <!--Middle Content-->
           <div class="md-content">
             <article class="md-content__inner md-typeset">
-              <h1 id="examples">VCF Transform Tools<a class="headerlink" href="#examples" title="Permanent link">&para;</a></h1>
-              <h2 id="identifiers">Adding the VMC Unique Identifiers</h2>
+              <h1 style="margin:8px;"id="examples">Starting with a VCF<a class="headerlink" href="#examples" title="Permanent link"></a></h1>
+          Starting file should <i>not</i> contain multiallelic variants. The <a href="https://genome.sph.umich.edu/wiki/Vt#Decompose_biallelic_block_substitutions">VT tool</a> should be pre-run to decompose variants before file transformation.</p>
+          <small id="fileHelp" class="form-text text-muted">Upload your VCF file and preview</small>
+
+              <div "font-size:80%;" class="form-group">
+                <form action="" method=post enctype=multipart/form-data>
+                  <input class="btn-sm" type="file" onchange="this.form.submit()" id="fileInput" accept=".vcf" name="file" size="1" >
+              </form>
+                  <p id="file_name" class="text-muted"></p>
+              </div>
+
+              <table class="codehilitetable">
+                <tr>
+                  <td class="code">
+                    <div class="codehilite"><pre id="inDisplayArea">{% block vcf_in %}{{ vcf_in }}{% endblock %}<pre></div>
+                  </td>
+                </tr>
+              </table>
+
+              <h2 id="identifiers">Add VMC Unique Identifiers</h2>
               <blockquote>
                 <p>The following VMC-standard identifiers will be added to the info field of each variant in the file. </br>INFO entries for each will also be added to the meta-information section of the file.</br>
                   <p>
@@ -149,40 +187,136 @@
                     <code>VMCGLID</code><small>   ##INFO=&ltID=VMCGLID,Number=1,Type=String,Description="VMC Location identifier"&gt</small></br>
                     <code>VMCGAID</code><small>   ##INFO=&ltID=VMCGAID,Number=1,Type=String,Description="VMC Allele identifier"&gt</small></br>
                   </p>
-                  File should <i>not</i> contain multiallelic variants. The <a href="https://genome.sph.umich.edu/wiki/Vt#Decompose_biallelic_block_substitutions">VT tool</a> should be pre-run to decompose variants before file transformation. </br>All identifiers are generated using the VMC digest algorithm (<i>see specification</i>).</p>
+                 All identifiers are generated using the VMC digest algorithm (<i>see specification</i>).</p>
               </blockquote>
 
-              <div style="padding-left:20px; font-size:70%;" class="form-group">
-                <form action="" method=post enctype=multipart/form-data>
-                  <input class="btn-sm" type="file" id="fileInput" name="file" size="1" >
-                  <small id="fileHelp" class="form-text text-muted">Select a VCF file to preview below</small>
-                  <p id="file_name" class="text-muted"></p>
-              </div>
 
               <p class="pointer text-muted">
-                <input style="width:32px;height:30px;padding-right:2px;" src="../static/images/convert.png" align=left type=image href="../uploads/in.vcf"> Click button when file appears below </input>
-              </p>
-              <table class="codehilitetable">
-                <tr>
-                  <td class="code">
-                    <div class="codehilite"><pre id="inDisplayArea"><pre></div>
-                  </td>
-                </tr>
-              </table>
+                  <a href="/transformed_vcf"><img style="width:28px;height:28px;" src="../static/images/convert.png"/></a>
+                Add identifiers</input>
+            </p>
 
-              <a href="../uploads/out.vcf"><img style="width:28px;height:28px;" src="../static/images/download.png"/></a>
-              <span class="text-muted"> Click button when file appears below </span>
-              </form>
               <table class="codehilitetable">
                 <tr>
                   <td class="code">
-                    <div class="codehilite"><pre id="outDisplayArea">{% block page_content %}{{ object }}{% endblock %}<pre></div>
+                    <div class="codehilite"><pre>{% block transformed_vcf %}{{ transformed_vcf }}{% endblock %}<pre></div>
                   </td>
                 </tr>
               </table>
+              <a href={% block out %}{{ out }}{% endblock %}><img style="width:28px;height:28px;" src="../static/images/download.png"/></a>
+              <span class="text-muted"> Download transformed VCF </span>
+              </form>
+
+              <h2 id="annotations">Add annotations associated with each identifier</h2>
+              <blockquote>
+                <p>The following annotations will be added blah blah blah. </br>INFO entries for each will also be added to the meta-information section of the file.</br>
+            </blockquote>
+
+
+              <p class="pointer text-muted">
+                  <a href="/transformed_vcf"><img style="width:28px;height:28px;" src="../static/images/convert.png"/></a>
+                Add annotations</input>
+              </p>
+
+              <table class="codehilitetable">
+                <tr>
+                  <td class="code">
+                    <div class="codehilite"><pre>{% block annotations %}{{ annotationsf }}{% endblock %}<pre></div>
+                  </td>
+                </tr>
+              </table>
+              <a href={% block file_path %}{{ file_path }}{% endblock %}><img style="width:28px;height:28px;" src="../static/images/download.png"/></a>
+              <span class="text-muted"> Download enhanced VCF </span>
+              </form>
+
+              <h2 id="json">Generate a JSON VMC bundle representation of your file.</h2>
+              <blockquote>
+                <p>
+                    Below is an example of the JSON structure of the VMC bundle object, taken from <a href="https://github.com/ga4gh/vmc/blob/master/schema/vmcbundle.json"></a>
+                </p>
+            </blockquote>
+            <table class="codehilitetable">
+              <tr>
+                <td class="code">
+                  <div class="codehilite"><pre>{% block json_example %}{{ json_example }}{% endblock %}<pre></div>
+                </td>
+              </tr>
+            </table>
+
+            <p class="pointer text-muted">
+                <a href="/vcf_json"><img style="width:28px;height:28px;" src="../static/images/convert.png"/></a>
+              Generate JSON</input>
+          </p>
+
+            <table class="codehilitetable">
+              <tr>
+                <td class="code">
+                  <div class="codehilite"><pre>{% block vcf_json %}{{ vcf_json }}{% endblock %}<pre></div>
+                </td>
+              </tr>
+            </table>
+            <a href={% block json_file %}{{ json_file }}{% endblock %}><img style="width:28px;height:28px;" src="../static/images/download.png"/></a>
+            <span class="text-muted"> Download VMC JSON </span>
+            </form>
+
+        </br></br></br></br>
+            <h1 style="margin:8px;"id="examples">Starting without a VCF<a class="headerlink" href="#examples" title="Permanent link"></a></h1>
+
+            <h2 id="hgvs">Generate a VMC bundle from a HGVS string.</h2>
+            <blockquote>
+              <p>
+                  Result is a JSON representation of the VMC bundle described in the specification (<i>see above for example</i>). Code used in conversion is taken from the VMC GitHub repo file <code>vmc-python/vmc/conversions.py</code> found <a href="https://github.com/ga4gh/vmc-python/blob/master/vmc/conversions.py">here</a>.
+              </p>
+            </blockquote>
+
+            <form action="/">
+                HGVS string: <input style="width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    "type="text" name="hgvs_string"><br>
+            <input class="btn" type="submit" value="Enter">
+            </form>
+
+            <table class="codehilitetable">
+              <tr>
+                <td class="code">
+                  <div class="codehilite"><pre>{% block hgvs_json %}{{ hgvs_json }}{% endblock %}<pre></div>
+                </td>
+              </tr>
+            </table>
+            <a href={% block hgvs_file %}{{ hgvs_file }}{% endblock %}><img style="width:28px;height:28px;" src="../static/images/download.png"/></a>
+            <span class="text-muted"> Download VMC JSON </span>
+
+            <h2 id="validator">Validate your VMC Identifier</h2>
+            <blockquote>
+              <p>
+                  A thorough explanation of what they will need to provide in order for this to work and a disclaimer that we already convert things for you but that we would be happy to check if your implementation is generating correct identifiers.
+            </p>
+            </blockquote>
+
+            <form action="/">
+                Identifier: <input style="width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    "type="text" name="hgvs_string"><br>
+            <input class="btn" type="submit" value="Enter">
+            <input type="radio" value="Allele"/>
+            <input type="dropdown" value="HG19" />
+            </form>
 
               </br></br></br>
             </article>
+
+
+
           </div>
         </div>
       </main>
