@@ -18,12 +18,12 @@ type VMCID struct {
 	Id         string
 	DateTime   time.Time
 	Identifier struct {
-		accession string
-		namespace string
+		Accession string
+		Namespace string
 	}
 	Interval struct {
-		start uint32
-		end   uint32
+		Start uint32
+		End   uint32
 	}
 	Location struct {
 		Id          string
@@ -31,9 +31,9 @@ type VMCID struct {
 		Sequence_id string
 	}
 	Allele struct {
-		id          string
-		location_id string
-		state       string
+		Id          string
+		Location_id string
+		State       string
 	}
 	Genotype struct {
 		id            string
@@ -60,12 +60,12 @@ func VMCRecord(v *vcfgo.Variant) *VMCID {
 	vmc := VMCID{}
 	vmc.Version = Version
 	vmc.DateTime = time.Now()
-	vmc.Identifier.namespace = "VMC"
+	vmc.Identifier.Namespace = "VMC"
 
 	// Collect values from the vcf read.
-	vmc.Interval.start = v.Start() - 1
-	vmc.Interval.end = v.End() + 1
-	vmc.Allele.state = v.Alt()[0]
+	vmc.Interval.Start = v.Start() - 1
+	vmc.Interval.End = v.End() + 1
+	vmc.Allele.State = v.Alt()[0]
 
 	vmcLocation(&vmc)
 	vmcAllele(&vmc)
@@ -79,14 +79,14 @@ func VMCRecord(v *vcfgo.Variant) *VMCID {
 func vmcLocation(v *VMCID) {
 
 	seqID := v.Location.Sequence_id
-	intervalString := fmt.Sprint(v.Interval.start) + ":" + fmt.Sprint(v.Interval.end)
+	intervalString := fmt.Sprint(v.Interval.Start) + ":" + fmt.Sprint(v.Interval.End)
 
 	location := "<Location:<Identifier:" + seqID + ">:<Interval:" + intervalString + ">>"
 	DigestLocation := VMCDigestId([]byte(location), 24)
-	id := v.Identifier.namespace + ":GL_" + DigestLocation
+	id := v.Identifier.Namespace + ":GL_" + DigestLocation
 
 	// Set as dummy id
-	v.Location.Sequence_id = v.Identifier.namespace + ":GS_Ya6Rs7DHhDeg7YaOSg1EoNi3U_nQ9SvO"
+	v.Location.Sequence_id = v.Identifier.Namespace + ":GS_Ya6Rs7DHhDeg7YaOSg1EoNi3U_nQ9SvO"
 	v.Location.Id = id
 	v.Location.Interval = intervalString
 }
@@ -96,15 +96,15 @@ func vmcLocation(v *VMCID) {
 //export vmcAllele
 func vmcAllele(v *VMCID) {
 
-	v.Allele.location_id = v.Location.Id
-	state := v.Allele.state
+	v.Allele.Location_id = v.Location.Id
+	state := v.Allele.State
 
 	allele := "<Allele:<Identifier:" + v.Location.Id + ">:" + state + ">"
 	DigestAllele := VMCDigestId([]byte(allele), 24)
-	id := v.Identifier.namespace + ":GA_" + DigestAllele
+	id := v.Identifier.Namespace + ":GA_" + DigestAllele
 
-	v.Allele.id = id
-	v.Allele.location_id = v.Location.Id
+	v.Allele.Id = id
+	v.Allele.Location_id = v.Location.Id
 }
 
 // ------------------------- //

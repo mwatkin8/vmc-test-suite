@@ -4,6 +4,7 @@ and writes the output into the out.vcf file.
 """
 from ctypes import cdll
 from collections import namedtuple
+import os
 
 variant = namedtuple('variant', ['chrom', 'pos', 'id', 'ref', 'alt', 'qual', \
     'filter', 'info', 'format', 'other'])
@@ -94,7 +95,7 @@ def parse_ids():
             id_list.append(line.strip())
     return id_list
 
-def parse(filename):
+def parse_info(filename):
     """Parses the header information from in.vcf and adds INFO entries to the
     meta-information section. Gets the new VMC identifiers from parseIDs()
     and adds them to the info fields of the variants via a vcfVariant object.
@@ -126,7 +127,7 @@ def parse(filename):
                 idx += 1
         return header + cols + variants
 
-def run(filename, out_filename):
+def run(filename, out_path):
     """Calls the Go code which creates the VMC identifiers.
     It then calls parse() to gather the updated file which it writes to out.vcf.
     """
@@ -134,6 +135,5 @@ def run(filename, out_filename):
     print('Generating the VMC unique IDs')
     vmc_lib.Transform(filename)
     #Write out to transformed file that the user can download
-    out_path = 'static/uploads/' + out_filename
     with open(out_path, 'w') as out:
-        out.write(parse(filename))
+        out.write(parse_info(filename))

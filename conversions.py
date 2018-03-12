@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
 
 """generate VMC Bundle from HGVS string
+
 >>> vb = from_hgvs("NC_000019.10:g.44908684C>T")
 >>> list(vb.locations.keys())[0]
 'VMC:GL_9Jht-lguk_jnBvG-wLJbjmBw5v_v7rQo'
 >>> list(vb.alleles.keys())[0]
 'VMC:GA_xXBYkzzu1AH0HRbLeFESvllmAKUNN1MF'
+
 # These types work:
 >>> _ = from_hgvs("NM_000314.4:c.706G>T")
 >>> _ = from_hgvs("NM_000314.4:c.706_706delG")
@@ -14,27 +16,31 @@
 >>> _ = from_hgvs("NM_000314.4:c.706_708delGACinsTTGT")
 >>> _ = from_hgvs("NM_000314.4:c.706_708delinsTTGT")
 >>> _ = from_hgvs("NM_000314.4:c.706delG")
+
 # Some HGVS expressions are not supported:
 >>> from_hgvs("NM_000314.4:c.493-2A>C")
 Traceback (most recent call last):
 ...
 ValueError: Intronic HGVS variants are not supported
+
 >>> from_hgvs("NM_000314.4:c.493dup")
 Traceback (most recent call last):
 ...
 ValueError: HGVS variant type dup is unsupported
+
 """
 
 import hgvs
 import hgvs.parser
 import hgvs.location
+import json
 
-from . import models, computed_id
-from .seqrepo import get_vmc_sequence_id
-
+from vmc import models, computed_id
+from vmc.seqrepo import get_vmc_sequence_id
 
 hp = None
 
+def ppj(o): print(json.dumps(json.loads(o.serialize()), indent=4, sort_keys=True))
 
 def _get_hgvs_parser():
     global hp
@@ -48,7 +54,7 @@ def from_hgvs(hgvs_string):
     sv = hp.parse_hgvs_variant(hgvs_string)
 
     ir = models.Identifier(namespace="NCBI", accession=sv.ac)
-    sequence_id = get_vmc_sequence_id(ir)
+    sequence_id = "VMC:GS_Ya6Rs7DHhDeg7YaOSg1EoNi3U_nQ9SvO"#get_vmc_sequence_id(ir)
 
     if isinstance(sv.posedit.pos, hgvs.location.BaseOffsetInterval):
         if sv.posedit.pos.start.is_intronic or sv.posedit.pos.end.is_intronic:
@@ -77,4 +83,8 @@ def from_hgvs(hgvs_string):
         meta={"version": "0.1"},
     )
 
-    return bundle
+    return ppj(bundle)
+    
+
+if __name__=="__main__":
+    print (from_hgvs("NC_000019.10:g.44908684C>T"))

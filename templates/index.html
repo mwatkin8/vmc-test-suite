@@ -132,11 +132,11 @@
                         Add VMC identifiers to VCF
                       </a>
                     </li>
-                    <li class="md-nav__item">
+                    <!--li class="md-nav__item">
                       <a href="#annotations" title="Annotations" class="md-nav__link">
                         Add associated annotations
                       </a>
-                    </li>
+                  </li-->
                     <li class="md-nav__item">
                       <a href="#json" title="Json" class="md-nav__link">
                         From VCF to VMC json
@@ -149,7 +149,7 @@
                     </li>
                     <li class="md-nav__item">
                       <a href="#validator" title="validator" class="md-nav__link">
-                        Validate your own VMC Identifier
+                        Validate your VMC Identifier
                       </a>
                     </li>
                   </ul>
@@ -203,11 +203,11 @@
                   </td>
                 </tr>
               </table>
-              <a href={% block out %}{{ out }}{% endblock %}><img style="width:28px;height:28px;" src="../static/images/download.png"/></a>
+              <a href={% block vcf_out %}{{ vcf_out }}{% endblock %}><img style="width:28px;height:28px;" src="../static/images/download.png"/></a>
               <span class="text-muted"> Download transformed VCF </span>
-              </form>
+             
 
-              <h2 id="annotations">Add annotations associated with each identifier</h2>
+              <!--h2 id="annotations">Add annotations associated with each identifier</h2>
               <blockquote>
                 <p>The following annotations will be added blah blah blah. </br>INFO entries for each will also be added to the meta-information section of the file.</br>
             </blockquote>
@@ -227,12 +227,12 @@
               </table>
               <a href={% block file_path %}{{ file_path }}{% endblock %}><img style="width:28px;height:28px;" src="../static/images/download.png"/></a>
               <span class="text-muted"> Download enhanced VCF </span>
-              </form>
+          </form-->
 
               <h2 id="json">Generate a JSON VMC bundle representation of your file.</h2>
               <blockquote>
                 <p>
-                    Below is an example of the JSON structure of the VMC bundle object, taken from <a href="https://github.com/ga4gh/vmc/blob/master/schema/vmcbundle.json"></a>
+                    Below is the JSON schema used to represent the VMC bundle object, taken from <a href="https://github.com/ga4gh/vmc/blob/master/schema/vmcbundle.json"></a>
                 </p>
             </blockquote>
             <table class="codehilitetable">
@@ -244,18 +244,19 @@
             </table>
 
             <p class="pointer text-muted">
-                <a href="/vcf_json"><img style="width:28px;height:28px;" src="../static/images/convert.png"/></a>
+                <a href="/bundle"><img style="width:28px;height:28px;" src="../static/images/convert.png"/></a>
               Generate JSON</input>
           </p>
 
             <table class="codehilitetable">
               <tr>
                 <td class="code">
-                  <div class="codehilite"><pre>{% block vcf_json %}{{ vcf_json }}{% endblock %}<pre></div>
+                  <div class="codehilite"><pre>{% block json_bundle %}{{ json_bundle }}{% endblock %}<pre></div>
                 </td>
               </tr>
             </table>
-            <a href={% block json_file %}{{ json_file }}{% endblock %}><img style="width:28px;height:28px;" src="../static/images/download.png"/></a>
+            <form>
+            <a href="{% block json_out %}{{ json_out }}{% endblock %}"><img style="width:28px;height:28px;" src="../static/images/download.png"/></a>
             <span class="text-muted"> Download VMC JSON </span>
             </form>
 
