@@ -7,6 +7,7 @@ from flask import Flask, flash, render_template, \
     request, redirect, send_from_directory
 import transform
 import bundle
+import conversions
 import re
 
 UPLOAD_FOLDER = 'static/uploads'
@@ -100,7 +101,38 @@ def display_bundle():
     else:
         return render_template('index.html', json_example=json_example, vcf_in=vcf_in, json_bundle=json_bundle, json_out=json)
 
+@APP.route('/hgvs', methods=['GET', 'POST'])
+def hgvs_to_json():
+    json_example = get_json_example()
+    filename = get_filename()
+    json,vcf = get_out_paths()
+    vcf_in = get_upload(filename)
+
     
+    hgvs = request.form['hgvs_string']
+    hgvs_json = conversions.from_hgvs(hgvs)
+    return render_template('index.html', hgvs_json=hgvs_json, json_example=json_example, vcf_in=vcf_in)
+
+    r = re.compile('.+.vcf')
+    if filter(r.match, os.listdir("static/downloads")):
+        transformed_vcf = get_transform(vcf)
+        r = re.compile('.+.json')
+        if filter(r.match, os.listdir("static/downloads")):
+            json_bundle = get_json_bundle(json)
+            return render_template('index.html', json_example=json_example, vcf_in=vcf_in, transformed_vcf=transformed_vcf, vcf_out=vcf_out, json_bundle=json_bundle, json_out=json)
+        else:
+            return render_template('index.html', json_example=json_example, vcf_in=vcf_in, transformed_vcf=transformed_vcf, vcf_out=vcf_out)
+    else:
+        r = re.compile('.+.json')
+        if filter(r.match, os.listdir("static/downloads")):
+            json_bundle = get_json_bundle(json)
+            return render_template('index.html', json_example=json_example, vcf_in=vcf_in, json_bundle=json_bundle, json_out=json)
+        else:
+            return render_template('index.html', json_example=json_example, vcf_in=vcf_in)
+
+
+    
+        
 # start the server with the 'run()' method
 if __name__ == '__main__':
     APP.run(debug=True, host="0.0.0.0")

@@ -40,7 +40,7 @@ from vmc.seqrepo import get_vmc_sequence_id
 
 hp = None
 
-def ppj(o): print(json.dumps(json.loads(o.serialize()), indent=4, sort_keys=True))
+def ppj(o): return json.dumps(json.loads(o.serialize()), indent=4, sort_keys=True)
 
 def _get_hgvs_parser():
     global hp
@@ -84,7 +84,3 @@ def from_hgvs(hgvs_string):
     )
 
     return ppj(bundle)
-    
-
-if __name__=="__main__":
-    print (from_hgvs("NC_000019.10:g.44908684C>T"))
