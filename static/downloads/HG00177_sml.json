@@ -64569,6 +64569,12 @@
             "state": "T"
         }
     },
+    "haplotypes": {
+        "": ""
+    },
+    "genotypes": {
+        "": ""
+    },
     "identifiers": {
         "VMC:GS_Ya6Rs7DHhDeg7YaOSg1EoNi3U_nQ9SvO": {
             "namespace": "NCBI",
@@ -104312,7 +104318,7 @@
         }
     },
     "meta": {
-        "generated_at": "2018-03-09 13:27:32.913475",
+        "generated_at": "2018-03-19 03:12:25.013761",
         "vmc_version": "0.1"
     }
 }
